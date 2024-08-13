@@ -165,6 +165,7 @@ int main() {
         WSACleanup();
         return 1;
     }
+
     do
     {       
         if (listen(ServerSocket, SOMAXCONN) == SOCKET_ERROR)
@@ -197,7 +198,7 @@ int main() {
             CloseHandle(thread_handle);
         }
       
-    } while (true);
+    }while (true);
 
     closesocket(ServerSocket);
     WSACleanup();
