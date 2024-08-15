@@ -60,30 +60,32 @@ int Flood_fill(int**& arr, int r, int c, int pr, int pc)
 
 
 
-void processing_worker()
+DWORD WINAPI processing_worker(LPVOID lpParam) 
 {
     while (true) {
-        if (q.empty())break;
-        store st = q.front();
-        q.pop();
-        int count = 0;
-        for (int i = 0; i < st.rows; i++)
-        {
-            for (int j = 0; j < st.cols; j++)
+        while (true) {
+            if (q.empty())break;
+            store st = q.front();
+            q.pop();
+            int count = 0;
+            for (int i = 0; i < st.rows; i++)
             {
-                if (st.arr[i][j] == 0)
+                for (int j = 0; j < st.cols; j++)
                 {
-                    st.arr[i][j] = 255;
-                    Flood_fill(st.arr, st.rows, st.cols, i, j);
-                    count++;
+                    if (st.arr[i][j] == 0)
+                    {
+                        st.arr[i][j] = 255;
+                        Flood_fill(st.arr, st.rows, st.cols, i, j);
+                        count++;
+                    }
                 }
             }
+            if (send(st.s, (char*)&count, 4, 0) < 1)
+            {
+                send(st.s, (char*)&count, 4, 0);
+            }
+            cout << "Image Count Succesfully sent\n";
         }
-        if (send(st.s, (char*)&count, 4, 0) < 1)
-        {
-            send(st.s, (char*)&count, 4, 0);
-        }
-        cout << "Image Count Succesfully sent\n";
     }
 }
 // handle client function
@@ -135,7 +137,7 @@ DWORD WINAPI HandleClient(LPVOID lpParam) {
     store st;
     st.s = ClientSocket; st.rows = rows; st.cols = cols; st.arr = mtx;
     q.push(st); 
-    processing_worker();
+   // processing_worker();
     return 0;
 }
 
@@ -161,7 +163,8 @@ int main() {
     ServerAdress.sin_family = AF_INET;
     ServerAdress.sin_addr.s_addr = INADDR_ANY;
     ServerAdress.sin_port = htons(34570);
-
+ 
+    
     if (bind(ServerSocket, (struct sockaddr*)&ServerAdress, sizeof(ServerAdress)) == SOCKET_ERROR)
     {
         cerr << "Binding failed " << endl;
@@ -169,7 +172,9 @@ int main() {
         WSACleanup();
         return 1;
     }
-
+    DWORD ThreadID;
+    SOCKET CSocket=5;
+    HANDLE thread_handle = CreateThread(NULL, 0, processing_worker, (LPVOID)CSocket, 0, &ThreadID);
     do
     {       
         if (listen(ServerSocket, SOMAXCONN) == SOCKET_ERROR)
@@ -180,7 +185,7 @@ int main() {
             return 1;
         }
         cout << "Server is listening on port " << PORT << endl;
-        processing_worker();
+        //processing_worker();
         SOCKET CleintSocket = accept(ServerSocket, NULL, NULL);
         if (CleintSocket == INVALID_SOCKET)
         {
@@ -190,7 +195,7 @@ int main() {
             return 1;
         }
 
-        DWORD ThreadID;
+       
         int client = 5;
         HANDLE thread_handle = CreateThread(NULL, 0, HandleClient, (LPVOID)CleintSocket, 0, &ThreadID);
         if (thread_handle == NULL)
