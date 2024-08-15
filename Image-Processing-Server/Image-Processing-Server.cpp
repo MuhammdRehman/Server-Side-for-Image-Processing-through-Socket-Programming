@@ -93,12 +93,16 @@ DWORD WINAPI HandleClient(LPVOID lpParam) {
     if (recv(ClientSocket, (char*)&rows, sizeof(int), 0) == SOCKET_ERROR)
     {
         cerr << "Failed to receive Number of rows from client.....(:/)\n";
+        int j = 1;
+        send(ClientSocket, (char*)&j, sizeof(int), 0);
         closesocket(ClientSocket);
         return 0;
     }
     if (recv(ClientSocket, (char*)&cols, sizeof(int), 0) == SOCKET_ERROR)
     {
         cerr << "Failed to receive Number of cols from client.....(:/)\n";
+        int j = 1;
+        send(ClientSocket, (char*)&j, sizeof(int), 0);
         closesocket(ClientSocket);    
         return 0;
     }
