@@ -17,6 +17,13 @@ This project is a C++ server-side implementation using Winsock for socket progra
 - **Compiler**: Visual Studio Community Edition (or any C++11 compatible compiler)
 - **Libraries**: Winsock2
 
+## Execution criteria
+- First clone this in your PC and execute this.
+- Then Run Client. and you will receive message if connection will succesfully established.
+- Server will receive image and after counting number of characters in the image it will send back to client.
+
+
+
 ## Installation
 
 1. **Clone the Repository:**
@@ -25,7 +32,4 @@ This project is a C++ server-side implementation using Winsock for socket progra
 
    ```bash
    git clone https://github.com/MuhammdRehman/your-repository.git
-
-   
-
 
