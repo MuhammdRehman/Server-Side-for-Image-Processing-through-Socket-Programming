@@ -10,7 +10,6 @@ This project is a C++ server-side implementation using Winsock for socket progra
 - **Thresholding**: Applies a threshold to matrix values.
 - **Winsock**: Uses Winsock2 for network communication.
 
-
 ## Prerequisites
 
 - **Operating System**: Windows
