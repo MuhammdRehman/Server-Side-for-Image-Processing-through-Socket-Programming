@@ -18,7 +18,7 @@ This project is a C++ server-side implementation using Winsock for socket progra
 
 ## Execution criteria
 - First clone this in your PC and execute this.
-- Then Run Client. and you will receive message if connection will succesfully established.
+- Then Run Client and you will receive message if connection will succesfully established.
 - Server will receive image and after counting number of characters in the image it will send back to client.
 
 
