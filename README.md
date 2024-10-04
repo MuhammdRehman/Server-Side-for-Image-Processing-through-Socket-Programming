@@ -22,7 +22,6 @@ This project is a C++ server-side implementation using Winsock for socket progra
 - Server will receive image and after counting number of characters in the image it will send back to client.
 
 
-
 ## Installation
 
 1. **Clone the Repository:**
